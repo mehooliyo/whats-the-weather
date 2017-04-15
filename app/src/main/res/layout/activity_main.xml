@@ -6,13 +6,63 @@
     android:layout_height="match_parent"
     tools:context="com.example.mehul.whatstheweather.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10sp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textLocHeader"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Location"
+            android:textSize="40sp" />
+
+        <GridLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="4">
+
+        </GridLayout>
+
+        <LinearLayout
+            android:id="@+id/fiveday"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/inputLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:ems="15"
+                android:inputType="textPersonName"
+                android:text="@string/input_location" />
+
+            <Button
+                android:id="@+id/btnGo"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:text="@string/btn_get_weather" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
