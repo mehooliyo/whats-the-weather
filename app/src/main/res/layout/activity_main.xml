@@ -45,22 +45,25 @@
             android:layout_weight="1">
 
             <EditText
-                android:id="@+id/inputLocation"
+                android:id="@+id/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:ems="15"
-                android:inputType="textPersonName"
-                android:text="@string/input_location" />
+                android:hint="@string/input_location"
+                android:inputType="textPersonName" />
 
+            <!-- TODO make button inactive if no text entered for location -->
             <Button
                 android:id="@+id/btnGo"
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
+                android:onClick="onClick"
                 android:text="@string/btn_get_weather" />
+
         </RelativeLayout>
 
     </LinearLayout>
