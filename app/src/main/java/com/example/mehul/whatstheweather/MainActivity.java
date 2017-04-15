@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String QUERY_ZIP = "http://api.openweathermap.org/data/2.5/weather?zip=%s,us&appid=%s";
 
     private TextView header;
+    private ImageView image;
+    private TextView temperature;
+    private TextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,27 +35,48 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         header = (TextView) findViewById(R.id.header);
+        image = (ImageView) findViewById(R.id.imageView);
+        temperature = (TextView) findViewById(R.id.temperature);
+        description = (TextView) findViewById(R.id.description);
 
     }
 
     public void onClick(View v){
-        EditText e = (EditText) findViewById(R.id.editText);
+        EditText editText = (EditText) findViewById(R.id.editText);
         DownloadTask task = new DownloadTask();
 
         String api_key = getResources().getString(R.string.api_key);
-        if(api_key == null || api_key.isEmpty()){
+
+        if(api_key.isEmpty()){
             Toast.makeText(getApplicationContext(), "No API Key Found", Toast.LENGTH_LONG).show();
-            Log.e("onClick", "No API Key Found");
+            return;
+        } else if (editText == null || editText.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(), "No input", Toast.LENGTH_LONG).show();
             return;
         }
 
-        String query = String.format(QUERY_ZIP, "07306", api_key);
-        Log.i("onClick", "query = " + query);
+        String query = String.format(QUERY_ZIP, editText.getText(), api_key);
+        Log.i("myapp", "query = " + query);
         task.execute(query);
     }
 
-    private void updateView(CityWeather weather){
-        header.setText(weather.getName() + ", " + weather.getCountry());
+    private void updateView(CityWeather city){
+        header.setText(city.getName() + ", " + city.getCountry());
+        image.setImageResource(getWeatherImage(city.getWeather()));
+        temperature.setText(city.getTemperature(true));
+        description.setText(city.getDescription());
+    }
+
+    private int getWeatherImage(String weather){
+        int drawableId = R.drawable.dunno;
+
+        switch (weather){
+            case "Clouds": drawableId = R.drawable.cloudy1;
+                break;
+        }
+
+        return drawableId;
+
     }
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
@@ -92,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject jsonResult = new JSONObject(result);
                 CityWeather weather = new CityWeather(jsonResult);
-                Log.i("onPostExecute", "Got weather for " + weather.getName() + ", " +  weather.getCountry());
+                Log.i("myapp", "Got weather " + weather);
                 updateView(weather);
             } catch (JSONException e) {
                 e.printStackTrace();
