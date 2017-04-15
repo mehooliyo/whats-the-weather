@@ -71,7 +71,11 @@ public class MainActivity extends AppCompatActivity {
         int drawableId = R.drawable.dunno;
 
         switch (weather){
+            case "Clear": drawableId = R.drawable.sunny;
+                break;
             case "Clouds": drawableId = R.drawable.cloudy1;
+                break;
+            case "Rain": drawableId = R.drawable.shower3;
                 break;
         }
 
@@ -103,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
                 return result;
 
             } catch (MalformedURLException e){
-                Toast.makeText(getApplicationContext(), "MalformedURLException", Toast.LENGTH_LONG);
+                Log.e("myapp", "MalformedURLException", e);
             } catch (IOException e){
-                Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_LONG);
+                Log.e("myapp", "IOException", e);
             }
 
             return null;
@@ -113,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result){
+            if(result == null){
+                Toast.makeText(getApplicationContext(), "Invalid zip code", Toast.LENGTH_LONG).show();
+                return;
+            }
+
             super.onPostExecute(result);
             try {
                 JSONObject jsonResult = new JSONObject(result);
