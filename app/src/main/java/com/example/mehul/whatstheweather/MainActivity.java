@@ -31,7 +31,15 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View v){
         EditText e = (EditText) findViewById(R.id.editText);
         DownloadTask task = new DownloadTask();
-        String query = String.format(QUERY_ZIP, "07306", getResources().getString(R.string.api_key));
+
+        String api_key = getResources().getString(R.string.api_key);
+        if(api_key == null || api_key.isEmpty()){
+            Toast.makeText(getApplicationContext(), "No API Key Found", Toast.LENGTH_LONG).show();
+            Log.e("onClick", "No API Key Found");
+            return;
+        }
+
+        String query = String.format(QUERY_ZIP, "07306", api_key);
         Log.i("onClick", "query = " + query);
         task.execute(query);
     }
