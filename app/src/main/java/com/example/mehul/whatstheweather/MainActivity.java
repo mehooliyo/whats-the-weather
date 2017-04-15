@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -22,10 +23,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String QUERY_ZIP = "http://api.openweathermap.org/data/2.5/weather?zip=%s,us&appid=%s";
 
+    private TextView header;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        header = (TextView) findViewById(R.id.header);
+
     }
 
     public void onClick(View v){
@@ -42,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         String query = String.format(QUERY_ZIP, "07306", api_key);
         Log.i("onClick", "query = " + query);
         task.execute(query);
+    }
+
+    private void updateView(CityWeather weather){
+        header.setText(weather.getName() + ", " + weather.getCountry());
     }
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
@@ -83,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonResult = new JSONObject(result);
                 CityWeather weather = new CityWeather(jsonResult);
                 Log.i("onPostExecute", "Got weather for " + weather.getName() + ", " +  weather.getCountry());
+                updateView(weather);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
