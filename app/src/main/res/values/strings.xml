@@ -2,4 +2,5 @@
     <string name="app_name">What\'s The Weather</string>
     <string name="input_location">Enter Zip Code</string>
     <string name="btn_get_weather">Go</string>
+    <string name="api_key"></string> <!-- SUPER INSECURE -->
 </resources>
